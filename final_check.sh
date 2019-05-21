@@ -39,9 +39,21 @@ case "$GPFS_STATE" in
     echo $GPFS_STATE
 esac
 
-rtn=`ssh $NODENAME "systemctl status slurmd"`
+SLURM_STATE=`ssh $NODENAME "systemctl status slurmd"`
 if [ $? -ne 0 ] ; then
     echo "Slurmd is not running on $NODENAME"
 else
     echo "Slurmd present and running"
 fi
+
+### Check hardware
+TOTAL_MEM=`free -h | grep Mem: | awk {'print $2'}`
+if [[ "$TOTAL_MEM" = "188G" ]]; then
+    echo "All ram found"
+else
+    echo "$NODENAME is missing RAM, $TOTAL_MEM found"
+fi
+
+
+
+
