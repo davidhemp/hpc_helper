@@ -47,7 +47,7 @@ else
 fi
 
 ### Check hardware
-TOTAL_MEM=`free -h | grep Mem: | awk {'print $2'}`
+TOTAL_MEM=`ssh $NODENAME "free -h | grep Mem: "| awk {'print $2'}`
 if [[ "$TOTAL_MEM" = "188G" ]]; then
     echo "All ram found"
 else
