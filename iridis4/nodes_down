@@ -1,0 +1,15 @@
+Warning- Unrecognised node state offline,job-exclusive for green0677
+green0002,green0047,green0062,green0077-green0078,green0201,green0240,green0474,green0522,green0541,green0677
+
+Known:
+green0047,green0077-green0078,green0474,green0541,indigo04
+
+Unexplained:
+green0002 State:      Down  (in current state for 2:19:42:51)
+green0062 State:      Down  (in current state for 2:19:42:51)
+green0201 State:      Down  (in current state for 2:19:42:52)
+green0240 State:   Drained  (in current state for 2:19:42:52)
+green0522 State:      Down  (in current state for 1:16:12:28)
+green0677 State:  Draining  (in current state for 00:01:00)
+
+green0002,green0062,green0201,green0240,green0522
