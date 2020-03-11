@@ -3,8 +3,8 @@ import subprocess
 
 import pysnow
 
-user = 'hpc'
-password = 'HPCSN01'
+#Password and user are kept seperate. 
+from hpc_key import *
 
 with open("/home/dwh1d17/.ssh/admdh.key") as f:
     admdh_passwd = f.read().strip("\n")
