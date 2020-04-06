@@ -6,20 +6,20 @@ def connect():
     conn = ldap3.Connection(server, ldap_user, ldap_password, auto_bind=True)
     return conn
 
-def add_member(cluster, user):
+def add_member(group, user):
     conn = connect()
-    if cluster not in ["jfAccessToIridis4", "jfAccessToIridis5"]:
-        print("Unknown cluster: ".format(cluster))
+    if group not in ["jfAccessToIridis4", "jfAccessToIridis5", "gaussian"]:
+        print("Unknown managed group: ".format(group))
     else:
-        required_filter = "(&(objectclass=group)(cn={}))".format(cluster)
+        required_filter = "(&(objectclass=group)(cn={}))".format(group)
         rtn = conn.search("dc=soton,dc=ac,dc=uk", required_filter)
         if rtn:
-            iridis_dn = conn.entries[0].entry_dn
+            group_dn = conn.entries[0].entry_dn
             required_filter = "(&(objectclass=user)(cn={}))".format(user)
             rtn = conn.search("dc=soton,dc=ac,dc=uk", required_filter)
             if rtn:
                 user_dn = conn.entries[0].entry_dn
-                conn.extend.microsoft.add_members_to_groups(user_dn, iridis_dn)
+                conn.extend.microsoft.add_members_to_groups(user_dn, group_dn)
 
 def get_all_members():
     conn = connect()
