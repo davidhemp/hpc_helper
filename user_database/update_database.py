@@ -26,7 +26,7 @@ def format_row_data(user, supervisor, school, faculty):
     return row
 
 upper_limit = datetime.today()
-lower_limit = upper_limit - timedelta(days=10)
+lower_limit = upper_limit - timedelta(days=40)
 
 # query for successful applications (state=3, closed complete)
 # within the required time frame
