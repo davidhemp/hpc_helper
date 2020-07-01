@@ -1,5 +1,7 @@
 #!/bin/bash
 module load conda
 source activate serviceline
-#python Iridis_applications.py
-python Lyceum_applications.py
+echo "Checking for Iridis Applications"
+python Iridis_applications.py
+#echo "Checking for Lyceum Applications"
+#python Lyceum_applications.py

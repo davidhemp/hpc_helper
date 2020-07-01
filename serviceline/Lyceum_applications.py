@@ -21,7 +21,8 @@ query = pysnow.QueryBuilder() \
         .AND().field('sys_created_on').greater_than(lower_limit)
 
 response = request.get(query=query, stream=True)
-#response = request.get(query={'number':'RITM0204120'})
+
+current_users = manage_ldap.get_all_members()
 
 for record in response.all():
     if record['assigned_to'] != '':
@@ -37,7 +38,15 @@ for record in response.all():
             for i in range(1, int(variables["lyceum_number"])+1):
                 userid = variables["lyceum_name_{}".format(i)]
                 # We now add users to both clusters
-                clusters = ["jfAccessLyceum5", "jfAccessLyceum4"]
+                clusters = ["jfAccessToLyceum5", "jfAccessToLyceum4"]
                 user = user_request.get(query={'sys_id': userid})
-                username = user.one()["user_name"]
-                print(username, clusters)
+                user = user.one()
+                if user["user_name"] != "":
+                    for cluster in clusters:
+                        if user['user_name'] in current_users[cluster]:
+                            print("{} is already in group {}.".format(user["user_name"], cluster))
+                        else:
+                            print("Adding: {} to {}.".format(user["user_name"], cluster))
+                            manage_ldap.add_member(cluster, user["user_name"])
+                else:
+                    print("ERROR: User has no username assigned!")

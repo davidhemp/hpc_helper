@@ -1,14 +1,19 @@
 import ldap3
 from ldap_key import *
 
+managed_groups = ["jfAccessToIridis4", 
+                    "jfAccessToIridis5", 
+                    "jfAccessToLyceum4",
+                    "jfAccessToLyceum5"]
+
+
 def connect():
-    server = ldap3.Server("SRV00369.soton.ac.uk", get_info=ldap3.ALL)
-    conn = ldap3.Connection(server, ldap_user, ldap_password, auto_bind=True)
     return conn
 
 def add_member(group, user):
-    conn = connect()
-    if group not in ["jfAccessToIridis4", "jfAccessToIridis5", "gaussian"]:
+    server = ldap3.Server("SRV00369.soton.ac.uk", get_info=ldap3.ALL)
+    conn = ldap3.Connection(server, ldap_user, ldap_password, auto_bind=True)
+    if group not in managed_groups:
         print("Unknown managed group: ".format(group))
     else:
         required_filter = "(&(objectclass=group)(cn={}))".format(group)
@@ -22,9 +27,10 @@ def add_member(group, user):
                 conn.extend.microsoft.add_members_to_groups(user_dn, group_dn)
 
 def get_all_members():
-    conn = connect()
+    server = ldap3.Server("SRV00369.soton.ac.uk", get_info=ldap3.ALL)
+    conn = ldap3.Connection(server, ldap_user, ldap_password, auto_bind=True)
     current_users = dict()
-    for cluster in ["jfAccessToIridis4", "jfAccessToIridis5"]:
+    for cluster in managed_groups:
       search_filter="(memberOf=CN={},OU=resource,OU=jf,OU=jf,OU=pk,OU=User,DC=soton,DC=ac,DC=uk)".format(cluster)
       conn.search("dc=soton,dc=ac,dc=uk", search_filter, attributes=["cn"])
       current_users[cluster] = [entry.cn.value for entry in conn.entries]
