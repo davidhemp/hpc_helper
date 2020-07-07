@@ -54,7 +54,6 @@ user::rwxc
 group::----
 other::----
 mask::rwxc
-user:${OWNER}:rwxc
 EOF
 
 for user in ${uniqArray[*]}; do
@@ -68,7 +67,6 @@ user::rw-c
 group::----
 other::----
 mask::rw-c
-user:${OWNER}:rw-c
 EOF
 
 for user in ${uniqArray[*]}; do
