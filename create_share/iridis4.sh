@@ -20,7 +20,10 @@ while read -p "User ${i}: " user; do
     fi
 done
 
-echo "Creating share ${sharePath}/${shareName} with access given to: ${userArray[*]}"
+userArray+=("${OWNER}")
+uniqArray=`echo ${userArray[@]} | tr ' ' '\n' |sort -u | tr '\n' ' '`
+
+echo "Creating share ${sharePath}/${shareName} with access given to: ${uniqArray[*]}"
 
 
 ## Create share
@@ -39,7 +42,7 @@ other::----
 mask::rwxc
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
     echo "user:${user}:--x-" >> scratch.acl
 done
 
@@ -54,7 +57,7 @@ mask::rwxc
 user:${OWNER}:rwxc
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
     echo "user:${user}:rwxc" >> share_x.acl
 done
 
@@ -68,7 +71,7 @@ mask::rw-c
 user:${OWNER}:rw-c
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
     echo "user:${user}:rw-c" >> share.acl
 done
 

@@ -20,9 +20,9 @@ while read -p "User ${i}: " user; do
     fi
 done
 userArray+=("${OWNER}")
+uniqArray=`echo ${userArray[@]} | tr ' ' '\n' |sort -u | tr '\n' ' '`
 
-
-echo "Creating share ${sharePath}/${shareName} with access given to: ${userArray[*]}"
+echo "Creating share ${sharePath}/${shareName} with access given to: ${uniqArray[*]}"
 
 
 ## Create share
@@ -49,7 +49,7 @@ special:everyone@:----:allow
  (-)DELETE    (-)DELETE_CHILD (-)CHOWN        (-)EXEC/SEARCH (-)WRITE_ACL (-)WRITE_ATTR (-)WRITE_NAMED
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
 cat << EOF >> scratch.acl
 user:${user}:--x-:allow
  (-)READ/LIST (-)WRITE/CREATE (-)APPEND/MKDIR (X)SYNCHRONIZE (X)READ_ACL  (X)READ_ATTR  (X)READ_NAMED
@@ -79,7 +79,7 @@ special:everyone@:----:allow
  (-)DELETE    (-)DELETE_CHILD (-)CHOWN        (-)EXEC/SEARCH (-)WRITE_ACL (-)WRITE_ATTR (-)WRITE_NAMED
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
 cat << EOF >> share_dir.acl
 user:${user}:rwxc:allow:DirInherit
  (X)READ/LIST (X)WRITE/CREATE (X)APPEND/MKDIR (X)SYNCHRONIZE (X)READ_ACL  (X)READ_ATTR  (X)READ_NAMED
@@ -107,7 +107,7 @@ special:everyone@:----:allow
  (-)DELETE    (-)DELETE_CHILD (-)CHOWN        (-)EXEC/SEARCH (-)WRITE_ACL (-)WRITE_ATTR (-)WRITE_NAMED
 EOF
 
-for user in ${userArray[*]}; do
+for user in ${uniqArray[*]}; do
 cat << EOF >> share.acl
 user:${user}:rw-c-:allow
  (X)READ/LIST (X)WRITE/CREATE (X)APPEND/MKDIR (X)SYNCHRONIZE (X)READ_ACL  (X)READ_ATTR  (X)READ_NAMED
