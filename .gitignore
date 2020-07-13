@@ -2,4 +2,4 @@
 *.pyc
 /logs*
 __pycache__
-venv*
+*venv*
