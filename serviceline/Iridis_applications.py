@@ -3,13 +3,11 @@ import subprocess
 
 import pysnow
 
-#Password and user are kept seperate. 
-from hpc_key import *
-
+import hpc_key
 import manage_ldap
 
 client = pysnow.client.Client(host='sotonproduction.service-now.com',
-                              user=sl_user, password=sl_password)
+                              user=hpc_key.sl_user, password=hpc_key.sl_password)
 
 request = client.resource(api_path='/v1/table/sc_req_item')
 form_request = client.resource(api_path='/uno49/ritm_iridis_api', base_path='/api')
@@ -46,4 +44,7 @@ for record in response.all():
                         experience = variables["iridis_application_user_experience"].split("_")[1]
                         print("Adding: " + " ".join((ritm, user['user_name'], cluster, experience)))
                         manage_ldap.add_member(cluster, user["user_name"])
+                        request.update(query={"number":ritm}, payload={"state":3})
+                        print("Ticket closed")
+
 
