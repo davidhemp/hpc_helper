@@ -58,11 +58,8 @@ for record in response.all():
                             email = True
                     if email:
                         print("Sending Welcome email to {} - {}".format(user['name'], user["user_name"]))
-                        sender_email = "dwh1d17@soton.ac.uk"
                         receiver_email = "{}@soton.ac.uk".format(user['user_name'])
-                        with email_users.connect() as server:
-                            msg = email_users.welcome_email(sender_email, receiver_email, user['name'])
-                            server.sendmail(sender_email, receiver_email, msg.as_string())
+                        msg = email_users.send_lyceum_email(receiver_email=receiver_email, full_name=user['name'])
                         print("Email sent. 60 second pause to prevent timeout")
                         sleep(60)
 

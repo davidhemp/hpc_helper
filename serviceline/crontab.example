@@ -1,0 +1,1 @@
+*/10 08-18 * * mon-fri /home/dwh1d17/tools/hpc_helper/serviceline/run.sh >> /home/dwh1d17/logs/serviceline.log

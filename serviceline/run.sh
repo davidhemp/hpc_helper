@@ -8,5 +8,5 @@ cd /home/dwh1d17/tools/hpc_helper/serviceline
 source activate serviceline
 echo "Checking for Iridis Applications"
 python Iridis_applications.py
-#echo "Checking for Lyceum Applications"
-#python Lyceum_applications.py
+echo "Checking for Lyceum Applications"
+python Lyceum_applications.py
