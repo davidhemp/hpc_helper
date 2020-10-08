@@ -7,11 +7,11 @@ def curses_draw(scr, row, col, data_dic, node_map, node_status):
     for key, value in data_dic.items():
         if "violet" not in node_map[key]:
             if sum(value) > 0 and row < 45:
-                scr.addstr(row, col, "{} : {}     ".format(node_map[key], sum(value)), curses.A_NORMAL)
-                scr.addstr(row, col+20, "{} : {:.2f}     ".format(node_map[key], sum(value)/len(value)), curses.A_NORMAL)
+                node_name = node_map[key].split(".")[0]
+                scr.addstr(row, col, "{} : {}     ".format(node_name, sum(value)), curses.A_NORMAL)
+                scr.addstr(row, col+20, "{} : {:.2f}     ".format(node_name, sum(value)/len(value)), curses.A_NORMAL)
                 user_str = "".ljust(40, ' ')
                 if "blue" not in node_map[key] and "cyan" not in node_map[key]:
-                    node_name = node_map[key]
                     user_str = ", ".join(node_status[node_name]["users"]).ljust(45, ' ')
                 scr.addstr(row, col+40, "{}".format(user_str), curses.A_NORMAL)
                 row += 1
